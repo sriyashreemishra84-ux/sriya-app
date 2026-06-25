@@ -3,19 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sriya Test</title>
+    <title>Sriya Numerology</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <style>body{margin:0;background:#0A1B4D;color:#C9943A;font-family:sans-serif}</style>
+    <style>
+        body{margin:0;background:#0A1B4D;color:#C9943A;font-family:sans-serif;text-align:center;padding:40px}
+        input{padding:12px;margin:8px;width:80%;max-width:300px;border-radius:8px;border:2px solid #C9943A;background:#001845;color:white;font-size:16px}
+        button{padding:14px 40px;background:#C9943A;color:#0A1B4D;border:none;border-radius:8px;font-weight:bold;font-size:16px;margin-top:15px;cursor:pointer}
+        .result{margin-top:25px;font-size:18px;line-height:1.6}
+    </style>
 </head>
 <body>
     <div id="root"></div>
-    <script type="text/babel">
+    <script>
+        const e = React.createElement;
         function App() {
-          return <h1 style={{padding: 50, textAlign: 'center'}}>IT WORKS! Sriya App is Live 🎉</h1>;
+          const [name, setName] = React.useState('');
+          const [dob, setDob] = React.useState('');
+          const [result, setResult] = React.useState('');
+          
+          function calculate() {
+            if(!name || !dob) return setResult('Please enter name and DOB');
+            const lifePath = (dob.split('').reduce((a,b)=>a+parseInt(b)||0,0) % 9) + 1;
+            setResult('Hi ' + name + '! Your Life Path Number is ' + lifePath);
+          }
+          
+          return e('div', null,
+            e('h1', null, 'Sriya Numerology App'),
+            e('p', null, 'Enter your details below'),
+            e('input', {placeholder: 'Your Name', value: name, onChange: ev => setName(ev.target.value)}),
+            e('br'),
+            e('input', {placeholder: 'DOB: DD/MM/YYYY', value: dob, onChange: ev => setDob(ev.target.value)}),
+            e('br'),
+            e('button', {onClick: calculate}, 'CALCULATE NUMBERS'),
+            e('div', {className: 'result'}, result)
+          );
         }
-        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+        ReactDOM.createRoot(document.getElementById('root')).render(e(App));
     </script>
 </body>
 </html>
